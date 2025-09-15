@@ -41,7 +41,6 @@ export class UserListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // Load layout from localStorage
     const savedLayout = localStorage.getItem('userLayout');
     if (savedLayout === 'table' || savedLayout === 'card') {
       this.layout = savedLayout;
@@ -49,7 +48,6 @@ export class UserListComponent implements OnInit, OnDestroy {
 
     this.fetchUsers();
 
-    // Initialize search from URL if exists
     this.subscriptions.add(
       this.route.queryParamMap.subscribe((params) => {
         const search = params.get('search') || '';
@@ -65,7 +63,6 @@ export class UserListComponent implements OnInit, OnDestroy {
       })
     );
 
-    // Subscribe to search changes
     this.subscriptions.add(
       this.searchSubject
         .pipe(debounceTime(300), distinctUntilChanged())
@@ -73,7 +70,6 @@ export class UserListComponent implements OnInit, OnDestroy {
           this.searchTerm = value;
           this.updateFilteredUsers();
 
-          // Update query params
           this.router.navigate([], {
             relativeTo: this.route,
             queryParams: { search: value || null },

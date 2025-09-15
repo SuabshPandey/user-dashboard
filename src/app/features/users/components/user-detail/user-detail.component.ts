@@ -43,7 +43,6 @@ export class UserDetailComponent implements OnInit {
   }
 
   goBack() {
-    // Navigate back preserving search & pagination
     const queryParams = this.route.snapshot.queryParams;
     this.router.navigate(['/users'], { queryParams });
   }

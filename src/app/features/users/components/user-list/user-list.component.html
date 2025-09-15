@@ -14,7 +14,6 @@
         </div>
     </div>
 
-    <!-- Search & Items per page -->
     <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
         <div class="input-group flex-grow-1">
             <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
@@ -25,10 +24,10 @@
 
     </div>
 
-    <!-- Loading State -->
-    <div *ngIf="loading" class="alert alert-info text-center">Loading users...</div>
+    <div *ngIf="loading" class=" ">
+        <app-loader></app-loader>
+    </div>
 
-    <!-- Error State -->
     <div *ngIf="error" class="alert alert-danger text-center">{{ error }}</div>
 
     <!-- Table Layout -->
@@ -45,7 +44,7 @@
         </div>
     </div>
 
-    <!-- No Results -->
+    <!-- No result found -->
     <div *ngIf="!loading && !error && !displayedUsers.length" class="text-center text-muted">
         No users found.
     </div>
