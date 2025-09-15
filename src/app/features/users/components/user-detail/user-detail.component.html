@@ -1,1 +1,35 @@
-<p>user-detail works!</p>
+<div class="container mt-4">
+
+    <!-- Back Button -->
+    <div class="mb-3">
+        <button class="btn btn-outline-secondary" (click)="goBack()">
+            <i class="bi bi-arrow-left"></i> Back to List
+        </button>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="alert alert-info text-center">
+        Loading user details...
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="alert alert-danger text-center">
+        {{ error }}
+    </div>
+
+    <!-- User Details Card -->
+    <div *ngIf="!loading && !error && user" class="card shadow-sm mx-auto" >
+        <div class="card-header text-center bg-primary text-white">
+            <h4>{{ user.name }}</h4>
+            <small class="text-light">{{ user.username }}</small>
+        </div>
+        <div class="card-body">
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Phone:</strong> {{ user.phone }}</p>
+            <p><strong>Website:</strong> <a href="http://{{ user.website }}" target="_blank">{{ user.website }}</a></p>
+            <p *ngIf="user.address"><strong>Address:</strong> {{ user.address.street }}, {{ user.address.suite }}, {{
+                user.address.city }}, {{ user.address.zipcode }}</p>
+            <p *ngIf="user.company"><strong>Company:</strong> {{ user.company.name }} - {{ user.company.bs }}</p>
+        </div>
+    </div>
+</div>
