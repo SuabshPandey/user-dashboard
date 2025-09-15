@@ -1,1 +1,9 @@
-<p>card works!</p>
+<div class="card h-100 shadow-sm" style="cursor:pointer;">
+    <div class="card-body">
+        <h5 class="card-title">{{ user.name }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ user.username }}</h6>
+        <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
+        <p class="card-text"><strong>Phone:</strong> {{ user.phone }}</p>
+        <p class="card-text"><strong>Website:</strong> {{ user.website }}</p>
+    </div>
+</div>
