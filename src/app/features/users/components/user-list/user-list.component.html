@@ -1,24 +1,62 @@
-<div class="container-fluid mt-4">
-    <h2>User List</h2>
+<div class="container mt-4">
 
-    <!-- Error -->
-    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+    <!-- Page Header & Layout Toggle -->
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+        <h2 class="mb-2 mb-md-0">User List</h2>
 
-    <app-table [columns]="columns" [data]="displayedUsers" [page]="page" [pageSize]="pageSize"
-        [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (rowClick)="onRowClick($event)">
-    </app-table>
-
-    <div class="d-flex justify-content-between align-items-center mt-3">
-        <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="totalRecords"
-            (pageChange)="onPageChange($event)" [boundaryLinks]="true" [maxSize]="5"
-            class="d-flex justify-content-center mt-3">
-        </ngb-pagination>
-        <!-- Items per page dropdown -->
-        <div class="d-flex align-content-center justify-content-center form-inline">
-            <label for="pageSizeSelect" class="me-2">Items per page:</label>
-            <select id="pageSizeSelect" class="form-select" style="width: auto;" [(ngModel)]="pageSize"
-                (change)="onPageSizeChange($event)">
-                <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
-            </select>
+        <div class="btn-group ms-2">
+            <button class="btn btn-outline-primary" [class.active]="layout === 'table'" (click)="changeLayout('table')">
+                Table
+            </button>
+            <button class="btn btn-outline-primary" [class.active]="layout === 'card'" (click)="changeLayout('card')">
+                Card
+            </button>
         </div>
     </div>
+
+    <!-- Search & Items per page -->
+    <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+        <div class="input-group flex-grow-1">
+            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+            <input #searchInput type="text" class="form-control" placeholder="Search by name or email..."
+                [value]="searchTerm" (input)="searchSubject.next(searchInput.value)" />
+        </div>
+
+
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="alert alert-info text-center">Loading users...</div>
+
+    <!-- Error State -->
+    <div *ngIf="error" class="alert alert-danger text-center">{{ error }}</div>
+
+    <!-- Table Layout -->
+    <div *ngIf="layout === 'table' && displayedUsers.length">
+        <app-table [columns]="columns" [data]="displayedUsers" [page]="page" [pageSize]="pageSize"
+            [totalRecords]="totalRecords" (pageChange)="onPageChange($event)" (rowClick)="onRowClick($event)">
+        </app-table>
+    </div>
+
+    <!-- Card Layout -->
+    <div *ngIf="layout === 'card' && displayedUsers.length" class="row g-3">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let user of displayedUsers">
+            <app-card [user]="user" (click)="onRowClick(user)"></app-card>
+        </div>
+    </div>
+
+    <!-- No Results -->
+    <div *ngIf="!loading && !error && !displayedUsers.length" class="text-center text-muted">
+        No users found.
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-between align-content-center mt-3 border border-red-300">
+        <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="totalRecords"
+            (pageChange)="onPageChange($event)" [boundaryLinks]="true" [maxSize]="5">
+        </ngb-pagination>
+        <select class="form-select" style="width: auto;" [value]="pageSize" (change)="onPageSizeChange($event)">
+            <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+        </select>
+    </div>
+</div>
